@@ -1,17 +1,12 @@
 from comtypes.client import CreateObject
-import pathlib
+import os
 
 class Converter():
-    '''This class converts files to different formats using the COM interface'''
+    '''This class converts files to different formats using Photoshop'''
     def __init__(self):
         self.ps = CreateObject('Photoshop.Application')
         self.ps.Preferences.RulerUnits = 1
     
-    '''
-    Converts files to PNG using Photoshop
-    Args:
-        files: list of file paths
-    '''
     def convertToPNG(self, files):
         for file in files:
             self.ps.Application.Open(file)
