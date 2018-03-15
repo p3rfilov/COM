@@ -1,6 +1,6 @@
-### Photoshop automation tools
+## Photoshop automation tools
 
-#### fileConverter
+### fileConverter
 
   *Convert files to different formats using Photoshop*
 
