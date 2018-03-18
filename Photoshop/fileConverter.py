@@ -30,16 +30,23 @@ class Converter():
     
     def convertToPNG(self):
         for file in self.files:
-            self.ps.Application.Open(file)
             outFile = os.path.splitext(file)[0] + '.png'
+            if self.shouldProcessFile(outFile):
+                self.ps.Application.Open(file)
+                options = CreateObject('Photoshop.PNGSaveOptions')
+                options.Compression = 1
+                options.Interlaced = False
+                saveAsCopy = True
+                
+                self.ps.ActiveDocument.SaveAs(outFile, options, saveAsCopy)
+                self.ps.ActiveDocument.Close()
             
-            options = CreateObject('Photoshop.PNGSaveOptions')
-            options.Compression = 1
-            options.Interlaced = False
-            saveAsCopy = True
-            
-            self.ps.ActiveDocument.SaveAs(outFile, options, saveAsCopy)
-            self.ps.ActiveDocument.Close()
+    def shouldProcessFile(self, file, overrideExisting=False):
+        if overrideExisting or not os.path.exists(file):
+            return True
+        else:
+            print('file already exists:', file, '')
+            return False
     
     def quit(self):
         #Close Photoshop if no documents are open
@@ -49,4 +56,5 @@ if __name__ == '__main__':
     import sys
     
     Converter(sys.argv[1:])
+
     
